@@ -1,76 +1,78 @@
 import { useReactiveVar } from "@apollo/client";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { isLoggedInVar } from "../apollo";
+import { isLoggedInVar, logUserOut } from "../apollo";
 import useUser from "../hooks/useUser";
 import routes from "../routes";
 import Avatar from "./Avatar";
+import DarkMode from "./DarkMode";
 
-const SHeader = styled.header`
+const Contanier = styled.div`
   width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-  background-color: ${(props) => props.theme.bgColor};
-  padding: 18px 0px;
+  min-width: 1200px;
+  border-bottom: 1px solid ${(props) => props.theme.fontColor};
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 0px;
+  margin-bottom: 40px;
 `;
 
-const Wrapper = styled.div`
-  max-width: 930px;
-  width: 100%;
+const SHeader = styled.header`
+  width: 80%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
 `;
 
-const Column = styled.div``;
-
-const Icon = styled.span`
-  margin-left: 15px;
-`;
-
-const Button = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  border-radius: 4px;
-  padding: 4px 15px;
-  color: white;
-  font-weight: 600;
-`;
-
-const IconsContainer = styled.div`
+const AuthLink = styled.div`
   display: flex;
-  align-items: center;
+  font-size: 15px;
+`;
+
+const LogoutBtn = styled.div`
+  margin-top: 7px;
+  cursor: pointer;
+`;
+
+const Nav = styled.div`
+  margin-right: 20px;
 `;
 
 function Header() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const history = useHistory();
   const { data } = useUser();
+  const logout = () => {
+    if (isLoggedIn) {
+      history.push(routes.home);
+      logUserOut();
+    } else {
+      window.location.reload();
+    }
+  };
   return (
-    <SHeader>
-      <Wrapper>
-        <Column>
-          <FontAwesomeIcon icon={faCoffee} size="2x" />
-        </Column>
-        <Column>
+    <Contanier>
+      <SHeader>
+        <DarkMode />
+        <FontAwesomeIcon icon={faCoffee} size="2x" />
+        <AuthLink>
           {isLoggedIn ? (
-            <IconsContainer>
-              <Icon>
-                <Link to={`/users/${data?.me?.username}`}>
-                  <Avatar url={data?.me?.avatarURL} />
-                </Link>
-              </Icon>
-            </IconsContainer>
-          ) : (
-            <Link href={routes.home}>
-              <Button>Login</Button>
-            </Link>
-          )}
-        </Column>
-      </Wrapper>
-    </SHeader>
+            <Nav>
+              <Link to={`/users/${data?.me?.username}`}>
+                <Avatar url={data?.me?.avatarURL} />
+              </Link>
+            </Nav>
+          ) : null}
+          <LogoutBtn onClick={logout}>
+            {isLoggedIn ? "로그아웃" : "로그인"}
+          </LogoutBtn>
+        </AuthLink>
+      </SHeader>
+    </Contanier>
   );
 }
 export default Header;
