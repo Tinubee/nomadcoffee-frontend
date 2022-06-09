@@ -10,6 +10,8 @@ import SignUp from "./screens/SignUp";
 import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
+import Createcoffee from "./screens/Createcoffee";
+import Editcoffee from "./screens/Editcoffee";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -35,6 +37,20 @@ function App() {
                   <SignUp />
                 </Route>
               ) : null}
+              <Route path={routes.coffee} exact>
+                {isLoggedIn ? (
+                  <Layout>
+                    <Createcoffee />
+                  </Layout>
+                ) : null}
+              </Route>
+              <Route path={routes.editcoffee} exact>
+                {isLoggedIn ? (
+                  <Layout>
+                    <Editcoffee />
+                  </Layout>
+                ) : null}
+              </Route>
               <Route>
                 <NotFound />
               </Route>

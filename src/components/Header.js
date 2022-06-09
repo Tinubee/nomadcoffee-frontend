@@ -33,12 +33,38 @@ const AuthLink = styled.div`
   font-size: 15px;
 `;
 
-const LogoutBtn = styled.div`
-  margin-top: 7px;
+const BtnContainer = styled.div`
+  margin-top: 5px;
   cursor: pointer;
 `;
 
+const LogoutBtn = styled.div`
+  border: none;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  background-color: ${(props) => props.theme.accent};
+  color: white;
+  text-align: center;
+  padding: 7px;
+  font-weight: 600;
+  width: 100%;
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+`;
+
+const CreateCoffeeBtn = styled.div`
+  border: none;
+  border-radius: 3px;
+  background-color: ${(props) => props.theme.accent};
+  color: white;
+  text-align: center;
+  padding: 7px;
+  font-weight: 600;
+  width: 100%;
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+`;
+
 const Nav = styled.div`
+  margin-top: 12px;
   margin-right: 20px;
 `;
 
@@ -58,7 +84,9 @@ function Header() {
     <Contanier>
       <SHeader>
         <DarkMode />
-        <FontAwesomeIcon icon={faCoffee} size="2x" />
+        <Link to={routes.home}>
+          <FontAwesomeIcon icon={faCoffee} size="3x" />
+        </Link>
         <AuthLink>
           {isLoggedIn ? (
             <Nav>
@@ -67,9 +95,14 @@ function Header() {
               </Link>
             </Nav>
           ) : null}
-          <LogoutBtn onClick={logout}>
-            {isLoggedIn ? "로그아웃" : "로그인"}
-          </LogoutBtn>
+          <BtnContainer>
+            <LogoutBtn onClick={logout}>
+              {isLoggedIn ? "로그아웃" : "로그인"}
+            </LogoutBtn>
+            <CreateCoffeeBtn>
+              <Link to={routes.coffee}>{isLoggedIn ? "카페등록" : null}</Link>
+            </CreateCoffeeBtn>
+          </BtnContainer>
         </AuthLink>
       </SHeader>
     </Contanier>
