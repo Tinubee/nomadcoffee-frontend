@@ -35,6 +35,7 @@ function EditShop(shopdata) {
         message: error,
       });
     }
+    window.location.reload();
   };
 
   const [editCoffeeShop, { loading }] = useMutation(EDIT_COFFEE_SHOP_MUTATION, {
@@ -94,7 +95,7 @@ function EditShop(shopdata) {
       /> */}
       <Button
         type="submit"
-        value={loading ? "Loading..." : "수정 완료"}
+        value={loading ? "수정중..." : "수정하기"}
         disabled={!formState.isValid || loading}
       />
       <Link to={routes.home}>

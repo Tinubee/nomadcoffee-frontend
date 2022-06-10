@@ -28,11 +28,21 @@ function CreateShop() {
     setPhotoFile(file);
   };
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, setError } = useForm({
     mode: "onChange",
   });
 
-  const onCompleted = (data) => {};
+  const onCompleted = (data) => {
+    const {
+      createCoffeeShop: { id },
+    } = data;
+    if (!id) {
+      return setError("result", {
+        message: "Error creating shop",
+      });
+    }
+    window.location.reload();
+  };
 
   const [createCoffeeShop, { loading }] = useMutation(
     CREATE_COFFEE_SHOP_MUTATION,
@@ -92,7 +102,7 @@ function CreateShop() {
       />
       <Button
         type="submit"
-        value={loading ? "Loading..." : "카페 만들기"}
+        value={loading ? "생성중..." : "카페 만들기"}
         disabled={!formState.isValid || loading}
       />
       <Link to={routes.home}>

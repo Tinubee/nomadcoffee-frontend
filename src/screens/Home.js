@@ -47,8 +47,8 @@ function Home() {
       <Wrapper>
         <PageTitle title="Home | Nomad Coffee" />
         <FormBox>
-          {data?.seeCoffeeShops?.map((coffeeShop) => (
-            <Shops key={coffeeShop.user} {...coffeeShop} />
+          {data?.seeCoffeeShops?.map((coffeeShop, index) => (
+            <Shops key={index} {...coffeeShop} />
           ))}
         </FormBox>
       </Wrapper>
