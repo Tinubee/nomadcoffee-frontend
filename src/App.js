@@ -12,6 +12,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Createcoffee from "./screens/Createcoffee";
 import Editcoffee from "./screens/Editcoffee";
+import Profile from "./screens/Profile";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -48,6 +49,13 @@ function App() {
                 {isLoggedIn ? (
                   <Layout>
                     <Editcoffee />
+                  </Layout>
+                ) : null}
+              </Route>
+              <Route path={routes.profile} exact>
+                {isLoggedIn ? (
+                  <Layout>
+                    <Profile />
                   </Layout>
                 ) : null}
               </Route>
